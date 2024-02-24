@@ -1,47 +1,50 @@
 import os as sys
 import time as t
 import webbrowser
-import pyfiglet
 
+# pip install pygfiglet and psutil
+import pyfiglet
+import psutil
 notes = [
 
 ]
 def documentation():
-    webbrowser.open("https://youtube.com")
-def project_webiste():
-    webbrowser.open("https://youtube.com")
+    webbrowser.open("https://nebifyusr.github.io/Pi-Cos_websute/")
+def git_repository():
+    webbrowser.open("https://github.com/Nebifyusr/Pi-COS.git")
 
 def add_notes():
     x = input("what note add? >>")
     notes.append(x)
 def read_notes():
-    for i in range(len(notes)):
-        print(f"note number  {i}:  {notes[i]}")
+    try:
+        for i in range(len(notes)):
+            print(f"note number  {i}:  {notes[i]}")
+    except:
+        print("==ERROR==:error at reading list !")
+
+def check_battery_status():
+    try:
+        battery = psutil.sensors_battery() 
+        
+        print(f"Battery percentage :  {battery.percent}%") 
+        print(f"Power Pluged :  {battery.power_plugged}")
+    except:
+        print("error at reading sensors of battery!") 
+
 
 def get_disk_usage():
-    """
-    Get disk usage statistics for the root path and print the information.
-    """
     try:
-        import psutil
-    except ImportError:
-        print("Error: psutil module not found. Please install it using 'pip install psutil'.")
-        return
-
-    disk_usage = psutil.disk_usage('/')
-    print("Disk Usage Information:")
-    print(f"Total: {disk_usage.total} bytes")
-    print(f"Used: {disk_usage.used} bytes")
-    print(f"Free: {disk_usage.free} bytes")
-    print(f"Usage Percentage: {disk_usage.percent}%")
+        disk_usage = psutil.disk_usage('/')
+        print("Disk Usage Information:")
+        print(f"Total: {disk_usage.total / 1073741824 } bytes")
+        print(f"Used: {disk_usage.used / 1073741824 } bytes")
+        print(f"Free: {disk_usage.free / 1073741824 } bytes")
+        print(f"Usage Percentage: {disk_usage.percent}%")
+    except:
+        print("error at reading disk!")
 
 def get_running_processes():
-    try:
-        import psutil
-    except ImportError:
-        print("Error: psutil module not found. Please install it using 'pip install psutil'.")
-        return
-
     processes = []
     for proc in psutil.process_iter(['pid', 'name', 'username', 'cpu_percent', 'memory_percent']):
         process_info = {
@@ -63,7 +66,16 @@ logins = {
     "user": ["1234pass", False, 2]
 }
 
-clear_screen = lambda: sys.system('cls')
+#clear_screen = lambda: sys.system('cls')
+
+def clear_screen():
+    try:
+        sys.system('cls')
+    except:
+        try:
+            sys.system('clear')
+        except:
+            print("==ERROR== Error at cleaning screen")
 
 def succ_command():
     global count
@@ -127,18 +139,23 @@ def show_commands():
 
 commands = {
     'help()': show_commands,
+    '--------':'--------',
     'add_user()': add_user,
-    'clear_screen()': clear_screen, #<= Lambda
-    #'log_out()': logout,
-    'drop_user()': drop_user,
-    'check_users()':check_users,
-    'random_nr()':random_nr, #<= Lambda,
-    'quit()':quit,
-    'disk_usage()': get_disk_usage,
-    'running_proceses()':get_running_processes,
+    'delete_user()': drop_user,
+    'users()':check_users,
+    '--------':'--------',
     'add_note()':add_notes,
     'read_notes()':read_notes,
-    'documentation()':documentation
+    '--------':'--------',
+    'disk_usage()': get_disk_usage,
+    'running_proceses()':get_running_processes,
+    'battery()':check_battery_status,
+    '--------':'--------',
+    'documentation()':documentation,
+    '--------':'--------',
+    'clear_screen()': clear_screen, #<= Lambda
+    'random_nr()':random_nr, #<= Lambda,
+    'quit()':quit,
 }
 
 # login system
@@ -189,3 +206,4 @@ while run:
         succ_command() 
     else:
         print("Access denied! Wrong username or password.")
+)
