@@ -5,17 +5,25 @@ import webbrowser
 # pip install pygfiglet and psutil
 import pyfiglet
 import psutil
+
 notes = [
 
 ]
+
+
 def documentation():
     webbrowser.open("https://nebifyusr.github.io/Pi-Cos_websute/")
+
+
 def git_repository():
     webbrowser.open("https://github.com/Nebifyusr/Pi-COS.git")
+
 
 def add_notes():
     x = input("what note add? >>")
     notes.append(x)
+
+
 def read_notes():
     try:
         for i in range(len(notes)):
@@ -23,26 +31,28 @@ def read_notes():
     except:
         print("==ERROR==:error at reading list !")
 
+
 def check_battery_status():
     try:
-        battery = psutil.sensors_battery() 
-        
-        print(f"Battery percentage :  {battery.percent}%") 
-        print(f"Power Pluged :  {battery.power_plugged}")
+        battery = psutil.sensors_battery()
+
+        print(f"Battery percentage :  {battery.percent}%")
+        print(f"Power Plugged :  {battery.power_plugged}")
     except:
-        print("error at reading sensors of battery!") 
+        print("error at reading sensors of battery!")
 
 
 def get_disk_usage():
     try:
         disk_usage = psutil.disk_usage('/')
         print("Disk Usage Information:")
-        print(f"Total: {disk_usage.total / 1073741824 } bytes")
-        print(f"Used: {disk_usage.used / 1073741824 } bytes")
-        print(f"Free: {disk_usage.free / 1073741824 } bytes")
+        print(f"Total: {disk_usage.total / 1073741824} bytes")
+        print(f"Used: {disk_usage.used / 1073741824} bytes")
+        print(f"Free: {disk_usage.free / 1073741824} bytes")
         print(f"Usage Percentage: {disk_usage.percent}%")
     except:
         print("error at reading disk!")
+
 
 def get_running_processes():
     processes = []
@@ -55,18 +65,19 @@ def get_running_processes():
             'memory_percent': proc.info['memory_percent']
         }
         processes.append(process_info)
-    
+
     print("Running Processes:")
     for process in processes:
-        print(f"PID: {process['pid']}, Name: {process['name']}, Username: {process['username']}, CPU%: {process['cpu_percent']}, Memory%: {process['memory_percent']}")
+        print(
+            f"PID: {process['pid']}, Name: {process['name']}, Username: {process['username']}, CPU%: {process['cpu_percent']}, Memory%: {process['memory_percent']}")
 
 
 logins = {
-    "admin": ["1234", True, 1],
-    "user": ["1234pass", False, 2]
+    "Fpep": ["", True, 1]
 }
 
-#clear_screen = lambda: sys.system('cls')
+
+# clear_screen = lambda: sys.system('cls')
 
 def clear_screen():
     try:
@@ -77,6 +88,7 @@ def clear_screen():
         except:
             print("==ERROR== Error at cleaning screen")
 
+
 def succ_command():
     global count
     count = 0
@@ -84,6 +96,8 @@ def succ_command():
 
 count = 0
 nxt_id = 3
+
+
 def add_user():
     global logins, count, nxt_id
     user_input = input("Enter new user name >>").lower()
@@ -103,6 +117,7 @@ def add_user():
     else:
         print("Add user command ended")
 
+
 def drop_user():
     user_id = int(input("   what user to drop (id)>>"))
     for name, details in logins.items():
@@ -120,17 +135,22 @@ def check_users():
         print("Is admin:", details[1])
         print("ID:", details[2])
 
+
 import random as r
+
 random_nr = lambda: print(r.randint(1, 10))
+
 
 def delogin():
     global usr_login, usr_pass
     usr_login = False
     usr_pass = False
 
+
 def quit():
     global run
     run = False
+
 
 def show_commands():
     for key in commands:
@@ -139,33 +159,38 @@ def show_commands():
 
 commands = {
     'help()': show_commands,
-    '--------':'--------',
+    '--------': '--------',
     'add_user()': add_user,
     'delete_user()': drop_user,
-    'users()':check_users,
-    '--------':'--------',
-    'add_note()':add_notes,
-    'read_notes()':read_notes,
-    '--------':'--------',
+    'users()': check_users,
+    '--------': '--------',
+    'add_note()': add_notes,
+    'read_notes()': read_notes,
+    '--------': '--------',
     'disk_usage()': get_disk_usage,
-    'running_proceses()':get_running_processes,
-    'battery()':check_battery_status,
-    '--------':'--------',
-    'documentation()':documentation,
-    '--------':'--------',
-    'clear_screen()': clear_screen, #<= Lambda
-    'random_nr()':random_nr, #<= Lambda,
-    'quit()':quit,
+    'running_proceses()': get_running_processes,
+    'battery()': check_battery_status,
+    '--------': '--------',
+    'documentation()': documentation,
+    '--------': '--------',
+    'clear_screen()': clear_screen,  # <= Lambda
+    'random_nr()': random_nr,  # <= Lambda,
+    'quit()': quit,
 }
 
+check_users()
+
+
 # login system
-def login_sys(user_login_input, user_password_input):
+def login_sys(
+        user_login_input, user_password_input):
     user_login_input = user_login_input.lower()
     for username, password in logins.items():
         if user_login_input == username:
             if user_password_input == password[0]:
                 return True
     return False
+
 
 def main_loop():
     global count, usr_login, usr_pass
@@ -184,6 +209,7 @@ def main_loop():
         for i in range(1):
             print("")
 
+
 run = True
 while run:
     login_access = False
@@ -197,13 +223,12 @@ while run:
         clear_screen()
         t.sleep(0.1)
         print("=================================")
-        print(pyfiglet.figlet_format("Pi COS", font="slant"))
+        print(pyfiglet.figlet_format("FPep.py", font="slant"))
         t.sleep(0.1)
         print("=================================")
         t.sleep(0.1)
         usr_pass = True
         main_loop()
-        succ_command() 
+        succ_command()
     else:
         print("Access denied! Wrong username or password.")
-)
